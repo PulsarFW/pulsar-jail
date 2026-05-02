@@ -10,7 +10,7 @@ AddEventHandler('onResourceStart', function(resource)
     RegisterMiddleware()
     RegisterPrisonSearchStartup()
     RegisterPrisonStashStartup()
-    exports['pulsar-core']:VersionCheck('PulsarFW/puklsar-jail')
+    exports['pulsar-core']:VersionCheck('PulsarFW/pulsar-jail')
   end
 end)
 
