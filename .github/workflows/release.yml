@@ -12,18 +12,14 @@ jobs:
   create-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Install zip
-        run: sudo apt install zip
-
       - name: Get latest code
         uses: actions/checkout@v4
 
       - name: Bundle files
         run: |
-          mkdir -p ./temp/pulsar-jail
-          cp ./{README.md,fxmanifest.lua,config.lua} ./temp/pulsar-jail
-          cp -r ./{client,server} ./temp/pulsar-jail
-          cd ./temp && zip -r ../pulsar-jail.zip ./pulsar-jail
+          mkdir -p staging/pulsar-jail
+          rsync -a --exclude='.github' --exclude='node_modules' --exclude='staging' . staging/pulsar-jail/
+          cd staging && zip -r ../pulsar-jail.zip pulsar-jail/
 
       - name: Create release
         uses: softprops/action-gh-release@v2
