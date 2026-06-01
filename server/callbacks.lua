@@ -37,14 +37,14 @@ function RegisterCallbacks()
 	exports["pulsar-core"]:RegisterServerCallback("Jail:MakeItem", function(source, data, cb)
 		local char = exports['pulsar-characters']:FetchCharacterSource(source)
 		if data == "food" or data == "drink" then
-			exports.ox_inventory:AddItem(char:GetData("SID"), string.format("prison_%s", data), 1, {}, 1)
+			exports.ox_inventory:AddItem(source, string.format("prison_%s", data), 1, {}, 1)
 		end
 	end)
 
 	exports["pulsar-core"]:RegisterServerCallback("Jail:MakeJuice", function(source, data, cb)
 		local char = exports['pulsar-characters']:FetchCharacterSource(source)
 		if char and data then
-			exports.ox_inventory:AddItem(char:GetData("SID"), data, 1, {}, 1)
+			exports.ox_inventory:AddItem(source, data, 1, {}, 1)
 		end
 	end)
 
