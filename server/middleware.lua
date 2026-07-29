@@ -1,5 +1,5 @@
 function RegisterMiddleware()
-	exports['pulsar-core']:MiddlewareAdd("Characters:Creating", function(source, cData)
+	plsr.Middleware:Add("Characters:Creating", function(source, cData)
 		return {
 			{
 				Jailed = false,
@@ -7,11 +7,11 @@ function RegisterMiddleware()
 		}
 	end)
 
-	exports['pulsar-core']:MiddlewareAdd("Characters:Spawning", function(source)
+	plsr.Middleware:Add("Characters:Spawning", function(source)
 		local _src = source
 		local currentTime = os.time() * 1000
 
-		local char = exports['pulsar-characters']:FetchCharacterSource(_src)
+		local char = plsr.Fetch:CharacterSource(_src)
 		if char ~= nil then
 			local jailed = char:GetData("Jailed")
 			if
@@ -23,8 +23,8 @@ function RegisterMiddleware()
 		end
 	end, 2)
 
-	local function CheckJailed(source)
-		local char = exports['pulsar-characters']:FetchCharacterSource(source)
+    local function CheckJailed(source)
+		local char = plsr.Fetch:CharacterSource(source)
 		if char ~= nil then
 			local jailed = char:GetData("Jailed") or false
 			if
@@ -34,8 +34,8 @@ function RegisterMiddleware()
 				char:SetData("Jailed", false)
 			end
 		end
-	end
+    end
 
-	exports['pulsar-core']:MiddlewareAdd("Characters:Logout", CheckJailed, 1)
-	exports['pulsar-core']:MiddlewareAdd("playerDropped", CheckJailed, 1)
+	plsr.Middleware:Add("Characters:Logout", CheckJailed, 1)
+	plsr.Middleware:Add("playerDropped", CheckJailed, 1)
 end

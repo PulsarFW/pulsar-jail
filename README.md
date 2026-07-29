@@ -6,12 +6,18 @@
 
 # PULSAR-JAIL
 
-### Player jailing, time served, and jailbreak
+### Prison sentencing — cell zones, time-served auto-release, in-cell searchables/stashes/crafting
 
 <br/>
 
 ![Lua](https://img.shields.io/badge/Lua_5.4-2C2D72?style=flat-square&logo=lua&logoColor=white)
 ![FiveM](https://img.shields.io/badge/FiveM-F40552?style=flat-square)
+
+<br/>
+
+<sub>Enjoy the framework? A coffee helps keep active development, hardening, and support going.</sub>
+
+<a href="https://buymeacoffee.com/pulsarframework"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: 180px !important;" /></a>
 
 <br/>
 
@@ -23,19 +29,21 @@
 
 ## Overview
 
-Jail system for Pulsar Framework. Police can sentence players with a configurable jail time, players serve time in a designated jail area, and a jailbreak mechanic allows coordinated escapes.
+Registers `plsr.Jail`. Seeds every new character with a `Jailed` field via the `Characters:Creating` middleware hook, and checks time-served against sentence duration on `Characters:Spawning` so a character logging back in past their release time comes back free automatically. Also covers in-cell contraband searchables, stashes, and crafting.
 
 ---
 
 ## Dependencies
 
-- `pulsar-core` — framework core
+- `pulsar_core` — framework core
+- `pulsar_characters` — hooks `Characters:Creating`/`Characters:Spawning` to seed and check the `Jailed` field
+- `pulsar_pwnzor` — anti-cheat check loaded alongside every resource
 
 ---
 
 ## License
 
-This resource is proprietary software. All rights reserved by the Pulsar Framework team. Unauthorized distribution or resale is prohibited.
+This resource is free to use and modify under the [Pulsar Framework License](LICENSE.md). Redistribution is welcome as long as it stays free — selling this resource or any derivative of it requires written permission from the Pulsar Framework team.
 
 ---
 

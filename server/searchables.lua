@@ -182,25 +182,25 @@ local _jailSearchableLocs = {
 function RegisterPrisonSearchStartup()
 	GlobalState.JailSearchLocations = _jailSearchableLocs[_jailSearchDays[tostring(os.date("%w"))]]
 
-	exports['pulsar-characters']:RepCreate(_repName, "PrisonSearchRep", {
-		{ label = "Rank 1",   value = 500 },
-		{ label = "Rank 2",   value = 1000 },
-		{ label = "Rank 3",   value = 2500 },
-		{ label = "Rank 4",   value = 4000 },
-		{ label = "Rank 5",   value = 5000 },
+	plsr.Reputation:Create(_repName, "PrisonSearchRep", {
+		{ label = "Rank 1", value = 500 },
+		{ label = "Rank 2", value = 1000 },
+		{ label = "Rank 3", value = 2500 },
+		{ label = "Rank 4", value = 4000 },
+		{ label = "Rank 5", value = 5000 },
 		{ label = "Pls Stop", value = 7500 },
 	}, 1) -- hidden rep
 
-	exports["pulsar-core"]:RegisterServerCallback("Prison:Searchable:GetLootShit", function(source, data, cb)
-		if not exports['pulsar-jail']:IsJailed(source) then
-			exports['pulsar-hud']:Notification(source, "error", "You're not jailed.")
+	plsr.Callbacks:RegisterServerCallback("Prison:Searchable:GetLootShit", function(source, data, cb)
+		if not plsr.Jail:IsJailed(source) then
+			plsr.Execute:Client(source, "Notification", "Error", "You're not jailed.")
 			cb(false)
 			return
 		end
-		local char = exports['pulsar-characters']:FetchCharacterSource(source)
+		local char = plsr.Fetch:CharacterSource(source)
 
 		if char then
-			local _PlayerRep = exports['pulsar-characters']:RepGetLevel(source, _repName) or 0
+			local _PlayerRep = plsr.Reputation:GetLevel(source, _repName) or 0
 			local _found = math.random(100) >= math.random(90)
 			local _loot = _lootTables.low
 			local _rando = math.random(5, 10)
@@ -215,15 +215,14 @@ function RegisterPrisonSearchStartup()
 					_loot = _lootTables.high
 				elseif _PlayerRep >= 7500 then
 					_loot = _lootTables.high
-					-- maybe give a rifle or some shit kekw
+					-- maybe give a fucking rifle or some shit kekw
 				end
-				exports.ox_inventory:LootCustomWeightedSetWithCountAndModifier(_loot, char:GetData("SID"), 1, 1,
-					false)
-				exports['pulsar-characters']:RepAdd(source, _repName, _rando)
-				exports['pulsar-hud']:Notification(source, "success", "You found something!")
+				plsr.Loot:CustomWeightedSetWithCountAndModifier(_loot, char:GetData("SID"), 1, 1, false)
+				plsr.Reputation.Modify:Add(source, _repName, _rando)
+				plsr.Execute:Client(source, "Notification", "Success", "You found something!")
 			else
-				exports['pulsar-characters']:RepAdd(source, _repName, math.random(1, 3))
-				exports['pulsar-hud']:Notification(source, "info", "Nothing was found.")
+				plsr.Reputation.Modify:Add(source, _repName, math.random(1, 3))
+				plsr.Execute:Client(source, "Notification", "Info", "Nothing was found.")
 			end
 			cb(true)
 		else

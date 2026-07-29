@@ -43,9 +43,9 @@ local _jailStashLocs = {
 function RegisterPrisonStashStartup()
 	GlobalState.JailStashLocations = _jailStashLocs
 
-	exports["pulsar-core"]:RegisterServerCallback("Inventory:PrisonStash:Open", function(source, data, cb)
-		local char = exports['pulsar-characters']:FetchCharacterSource(source)
-		-- if not exports['pulsar-jail']:IsJailed(source) then
+	plsr.Callbacks:RegisterServerCallback("Inventory:PrisonStash:Open", function(source, data, cb)
+		local char = plsr.Fetch:CharacterSource(source)
+		-- if not Jail:IsJailed(source) then
 		if char then
 			local _inventory = 5000
 			local _inventoryOwner = ("prisonstash:%s"):format(char:GetData("SID"))
@@ -55,23 +55,23 @@ function RegisterPrisonStashStartup()
 				_inventoryOwner = "prisonstash:public"
 			end
 
-			exports["pulsar-core"]:ClientCallback(source, "Inventory:Compartment:Open", {
+			plsr.Callbacks:ClientCallback(source, "Inventory:Compartment:Open", {
 				invType = _inventory,
 				owner = _inventoryOwner,
 			}, function()
-				exports.ox_inventory:OpenSecondary(source, _inventory, _inventoryOwner)
+				plsr.Inventory:OpenSecondary(source, _inventory, _inventoryOwner)
 			end)
 		end
 	end)
 
-	exports["pulsar-core"]:RegisterServerCallback("Inventory:PrisonStash:Raid", function(source, data, cb)
-		local char = exports['pulsar-characters']:FetchCharacterSource(source)
+	plsr.Callbacks:RegisterServerCallback("Inventory:PrisonStash:Raid", function(source, data, cb)
+		local char = plsr.Fetch:CharacterSource(source)
 		if char and data and data.stateid then
 			if
-				Player(source).state.onDuty == "police" or Player(source).state.onDuty == "prison"
-			--and exports['pulsar-jobs']:HasPermissionInJob(source, "police", "PD_RAID")
+				plsr.State:Player(source).onDuty == "police" or plsr.State:Player(source).onDuty == "prison"
+				--and Jobs.Permissions:HasPermissionInJob(source, "police", "PD_RAID")
 			then
-				-- exports['pulsar-core']:LoggerWarn(
+				-- Logger:Warn(
 				-- 	"Police",
 				-- 	string.format(
 				-- 		"Police Storage Unit Raid - Character %s %s (%s) - Accessing Storage Unit %s (%s)",
@@ -92,11 +92,11 @@ function RegisterPrisonStashStartup()
 				local _inventory = 5000
 				local _inventoryOwner = ("prisonstash:%s"):format(tonumber(data.stateid))
 				print("_inventoryOwner", _inventoryOwner)
-				exports["pulsar-core"]:ClientCallback(source, "Inventory:Compartment:Open", {
+				plsr.Callbacks:ClientCallback(source, "Inventory:Compartment:Open", {
 					invType = _inventory,
 					owner = _inventoryOwner,
 				}, function()
-					exports.ox_inventory:OpenSecondary(source, _inventory, _inventoryOwner)
+					plsr.Inventory:OpenSecondary(source, _inventory, _inventoryOwner)
 				end)
 
 				cb(true)

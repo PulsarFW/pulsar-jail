@@ -1,8 +1,8 @@
 _disabled = false
 
 function DisableControls()
-	CreateThread(function()
-		while LocalPlayer.state.loggedIn and _disabled do
+    CreateThread(function()
+		while plsr.State.flags.loggedIn and _disabled do
 			DisableControlAction(0, 0, true) -- INPUT_NEXT_CAMERA
 			DisableControlAction(0, 21, true) -- INPUT_SPRINT
 			DisableControlAction(0, 22, true) -- INPUT_JUMP
@@ -34,5 +34,5 @@ function DisableControls()
 			DisablePlayerFiring(PlayerId(), true) -- Disable weapon firing
 			Wait(1)
 		end
-	end)
+    end)
 end

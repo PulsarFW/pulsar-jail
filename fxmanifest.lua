@@ -1,19 +1,29 @@
-fx_version("cerulean")
-game("gta5")
-lua54("yes")
-version '1.0.4'
+fx_version 'cerulean'
+game 'gta5'
 
-client_script("@pulsar-core/exports/cl_error.lua")
-client_script("@pulsar-pwnzor/client/check.lua")
+name 'Pulsar Jail'
+description 'Prison sentencing with cell zones and time-served auto-release'
+author 'Artmines - maintained for Pulsar Framework'
+url 'https://pulsarframe.work'
+version 'v1.0.0'
+
+version_check 'yes'
+github 'https://github.com/PulsarFW/pulsar_jail'
+
+client_script '@pulsar_core/components/cl_error.lua'
+shared_script '@pulsar_core/core/sh_pulsar.lua'
+client_script '@pulsar_pwnzor/client/check.lua'
 
 server_scripts({
-  "server/**/*.lua",
+	'server/**/*.lua',
 })
 
 shared_scripts({
-  "config.lua",
+	'config.lua',
 })
 
 client_scripts({
-  "client/**/*.lua",
+	'client/**/*.lua',
 })
+
+lua54 'yes'

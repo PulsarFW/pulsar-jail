@@ -47,14 +47,14 @@ function DoBoardShit(jailer, duration, date)
 
 	local myname = string.format(
 		"%s %s",
-		LocalPlayer.state.Character:GetData("First"),
-		LocalPlayer.state.Character:GetData("Last")
+		plsr.State.character.First,
+		plsr.State.character.Last
 	)
-	local mysid = LocalPlayer.state.Character:GetData("SID")
+	local mysid = plsr.State.character.SID
 
 	CreateThread(function()
-		while LocalPlayer.state.loggedIn and _doingMugshot do
-			local obj = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 10.0, `prop_police_id_board`, 0, 0, 0)
+		while plsr.State.flags.loggedIn and _doingMugshot do
+            local obj = GetClosestObjectOfType(GetEntityCoords(PlayerPedId()), 10.0, `prop_police_id_board`, 0, 0, 0)
 			if obj then
 				scaleformShit(scf, obj, jailer, myname, mysid, duration, date)
 			end
